@@ -1,0 +1,12 @@
+int r = 2.15
+
+if(x>0){      
+    
+print(x);
+
+}
+
+while(r > 2){
+    print("Preciosa la vida");
+
+}
