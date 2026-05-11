@@ -3,7 +3,7 @@ KEYWORDS = {
     'int', 'float', 'if', 'else', 'while', 'return',
     'and', 'switch', 'do', 'not', 'for', 'default',
     'case', 'boolean', 'try', 'catch', 'or', 'main',
-    'elif', 'print', 'input', 'Read', 'def'
+    'elif', 'print', 'input', 'def', 'const', 'True', 'False'
 }
 
 COMP = {

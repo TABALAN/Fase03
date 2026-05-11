@@ -4,11 +4,11 @@ from adaptadorLexer import adaptadorL
 #Las funciones deben estar fuera para que funcione el PLY
 tokens = (
             # Literales
-            'ID', 'NUM', 'DECIMAL', 'STRING',
+            'ID', 'NUM', 'DECIMAL', 'STRING', 'TRUE', 'FALSE',
             # Palabras clave
             'FLOAT', 'INT', 'IF', 'ELSE', 'WHILE', 'FOR', 'RETURN', 'AND', 'OR', 'NOT',
             'SWITCH', 'DO', 'DEFAULT', 'CASE', 'BOOLEAN', 'TRY', 'CATCH',
-            'MAIN', 'ELIF', 'PRINT', 'INPUT', 'READ', 'DEF',
+            'MAIN', 'ELIF', 'PRINT', 'INPUT', 'READ', 'DEF', 'CONST',
             # Operadores aritméticos
             'PLUS', 'MINUS', 'TIMES', 'DIVIDE',
             # Operadores de comparación
@@ -72,26 +72,26 @@ def p_s_call(p):
 #Error léxico: se consume el token inválido.
 def p_s_lexico_error(p):
     "s : LEXICO_ERROR SEMI"
-    print(f"[Error léxico] Línea {p.lineno(1)}: token inválido '{p[1]}'") #### <-----------------------------
+    print(f"[Error léxico] Línea {p.lineno(1)}: token inválido '{p[1]}'") 
     p[0] = None
 
 #Recuperación de errores
 def p_sprime_error_semi(p):
     "sprime : error SEMI sprime"
-    print(f"[Error sintáctico] Se descartó una sentencia inválida.")
+    print(f"[Error sintáctico] Se descartó una sentencia inválida ({p.lineno(1)}).")
     p[0] = p[3]          # continúa con el resto del programa
     p.parser.errok()     # permite detectar más errores
  
 def p_sprime_error_rbrace(p):
     "sprime : error RBRACE sprime"
     # Reinsertamos el '}' para que la producción C lo consuma correctamente.
-    print(f"[Error sintáctico] Bloque mal formado, se intentó recuperar.")
+    print(f"[Error sintáctico] Bloque mal formado, se intentó recuperar. ({p.lineno(1)})")
     p.lexer.reinsert(_make_rbrace_token(p))
     p[0] = p[3]
     p.parser.errok()
  
 def _make_rbrace_token(p):
-    """Reconstruye un token RBRACE para reinsertarlo en el flujo."""
+    #Reconstruye un token RBRACE para reinsertarlo en el flujo.
     import ply.lex as lex
     tok = lex.LexToken()
     tok.type    = 'RBRACE'
@@ -225,9 +225,13 @@ def p_h_string(p):
     "h : STRING"
     p[0] = ('string', p[1])
  
-def p_h_bool(p):
-    "h : BOOLEAN"
-    p[0] = ('boolean', p[1])
+def p_h_true(p):
+    "h : TRUE"
+    p[0] = ('boolean', True)
+
+def p_h_false(p):
+    "h : FALSE"
+    p[0] = ('boolean', False)
  
 def p_h_input(p):
     "h : INPUT LPAREN STRING RPAREN"
@@ -283,6 +287,18 @@ def p_k_inc(p):
 def p_k_dec(p):
     "k : ID DEC"
     p[0] = ('dec', p[1])
+
+def p_k_const(p): ##Agregar la producción para declarar constantes.
+    "k : CONST j ID ASSIGN e"
+    p[0] = ('const', p[2], p[3], p[5])
+
+def p_k_pluseq(p): #Agregados para eliminar error de += y -=
+    "k : ID PLUSEQ e"
+    p[0] = ('pluseq', p[1], p[3])
+
+def p_k_minuseq(p):
+    "k : ID MINUSEQ e"
+    p[0] = ('minuseq', p[1], p[3])
 
 #L — definición de función  def id(M) C
 def p_l(p):

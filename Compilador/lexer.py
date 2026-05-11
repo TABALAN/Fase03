@@ -12,7 +12,7 @@ class Lexer:
                     "float" : r"^(0|[1-9][0-9]*)\.[0-9]+$",
                     "txt" : r"^\"[A-Za-z0-9_\-@%¿?¡!'\(\);:\.\+= ]*\"$",
                     "op" : r"^[+\-*/]$",
-                    "key" : r"^(int|float|if|else|while|return|and|switch|do|not|for|default|case|boolean|try|catch|or|main|elif|print|input|Read|def|mul)$",
+                    "key" : r"^(int|float|True|False|if|else|while|return|and|switch|do|not|for|default|case|boolean|try|catch|or|main|elif|print|input|def|const)$",
                     "comp" : r"^(==|!=|<=|>=|<|>|%|\+\+|--|\+=|-=)$",
                     "esp" : r"^[&~¬°(){}=!]$",
                     "punt" : r"^[,:;]$",
@@ -606,7 +606,7 @@ class Lexer:
 
                     #Tiene que ser key el sublexema para validar que el paréntesis pertenezca
                     if re.fullmatch(self.token["key"], sublexema):
-                        if lexema[i+1] in ['(', '{']:
+                        if lexema[i+1] in ['(', '{', ';']:
                             self.validarNI(sublexema, linea, columna, identacion)
                             self.leerCaracterI(lexema[i+1], linea, columna, identacion)
                             i+=1
