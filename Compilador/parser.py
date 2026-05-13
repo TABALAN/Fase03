@@ -8,7 +8,7 @@ tokens = (
             # Palabras clave
             'FLOAT', 'INT', 'IF', 'ELSE', 'WHILE', 'FOR', 'RETURN', 'AND', 'OR', 'NOT',
             'SWITCH', 'DO', 'DEFAULT', 'CASE', 'BOOLEAN', 'TRY', 'CATCH',
-            'MAIN', 'ELIF', 'PRINT', 'INPUT', 'READ', 'DEF', 'CONST',
+            'MAIN', 'ELIF', 'PRINT', 'INPUT', 'READ', 'DEF', 'CONST', 'VOID',
             # Operadores aritméticos
             'PLUS', 'MINUS', 'TIMES', 'DIVIDE',
             # Operadores de comparación
@@ -85,21 +85,9 @@ def p_sprime_error_semi(p):
 def p_sprime_error_rbrace(p):
     "sprime : error RBRACE sprime"
     # Reinsertamos el '}' para que la producción C lo consuma correctamente.
-    print(f"[Error sintáctico] Bloque mal formado, se intentó recuperar. ({p.lineno(1)})")
-    p.lexer.reinsert(_make_rbrace_token(p))
+    print(f"[Error sintáctico] Bloque mal formado, se intentó recuperar. ({p.lineno(2)})")
     p[0] = p[3]
     p.parser.errok()
- 
-def _make_rbrace_token(p):
-    #Reconstruye un token RBRACE para reinsertarlo en el flujo.
-    import ply.lex as lex
-    tok = lex.LexToken()
-    tok.type    = 'RBRACE'
-    tok.value   = '}'
-    tok.lineno  = p.lineno(2)
-    tok.lexpos  = 0
-    tok.lexer   = p.lexer
-    return tok
 
 #C — bloque de código {sprime}
 def p_c(p):
@@ -271,6 +259,10 @@ def p_j_bool(p):
     "j : BOOLEAN"
     p[0] = 'boolean'
 
+def p_j_void(p):
+    "j : VOID"
+    p[0] = 'void'
+
 #K — asignación / declaración / incremento (sentencias simples sin SEMI, porque S ya les añade el SEMI en su propia producción)
 def p_k_assign(p):
     "k : ID ASSIGN e"
@@ -288,7 +280,7 @@ def p_k_dec(p):
     "k : ID DEC"
     p[0] = ('dec', p[1])
 
-def p_k_const(p): ##Agregar la producción para declarar constantes.
+def p_k_const(p): #Agregar la producción para declarar constantes.
     "k : CONST j ID ASSIGN e"
     p[0] = ('const', p[2], p[3], p[5])
 
@@ -302,21 +294,21 @@ def p_k_minuseq(p):
 
 #L — definición de función  def id(M) C
 def p_l(p):
-    "l : DEF ID LPAREN m RPAREN c"
-    p[0] = ('def', p[2], p[4], p[6])
+    "l : DEF j ID LPAREN m RPAREN c"
+    p[0] = ('def', p[2], p[3], p[5], p[7])
 
 #M / N — parámetros formales
 def p_m_id(p):
-    "m : ID n"
-    p[0] = ('param', p[1], p[2])
+    "m : j ID n"                    
+    p[0] = ('param', p[2], p[1], p[3])
  
 def p_m_empty(p):
     "m : empty"
     p[0] = None
  
 def p_n_comma(p):
-    "n : COMMA ID n"
-    p[0] = ('param', p[2], p[3])
+    "n : COMMA j ID n"             
+    p[0] = ('param', p[3], p[2], p[4])
  
 def p_n_empty(p):
     "n : empty"

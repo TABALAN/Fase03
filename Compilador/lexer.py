@@ -12,7 +12,7 @@ class Lexer:
                     "float" : r"^(0|[1-9][0-9]*)\.[0-9]+$",
                     "txt" : r"^\"[A-Za-z0-9_\-@%¿?¡!'\(\);:\.\+= ]*\"$",
                     "op" : r"^[+\-*/]$",
-                    "key" : r"^(int|float|True|False|if|else|while|return|and|switch|do|not|for|default|case|boolean|try|catch|or|main|elif|print|input|def|const)$",
+                    "key" : r"^(int|float|True|False|if|else|while|return|and|switch|do|not|for|default|case|boolean|try|catch|or|main|elif|print|input|def|const|void)$",
                     "comp" : r"^(==|!=|<=|>=|<|>|%|\+\+|--|\+=|-=)$",
                     "esp" : r"^[&~¬°(){}=!]$",
                     "punt" : r"^[,:;]$",
