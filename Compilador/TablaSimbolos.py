@@ -1,3 +1,4 @@
+#Tabla de símbolos para utilizar en el analizador semántico directamente.
 class Tabla:
     #Constructor
     def __init__(self):
@@ -33,7 +34,7 @@ class Tabla:
     def buscarAmbitoActual(self, nombre):
         return self.ambitoActual().get(nombre, None)
 
-    #Declara un símbolo en el ámbito actual
+    #Declara una variable en el ámbito actual
     def declarar(self, nombre, entrada, linea=None):
         if nombre in self.ambitoActual(): #Va a retornar False si ya estaba declarado en este ámbito (redeclarar)
             self.error(f"'{nombre}' ya fue declarado en este ámbito.", linea)

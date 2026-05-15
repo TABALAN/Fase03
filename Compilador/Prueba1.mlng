@@ -1,0 +1,11 @@
+#Prueba para imprimir un "Hola mundo"
+def void main() {
+    string texto = "Hola mundo";
+    print(texto);
+}
+
+def int sumaEnteros(int a, int b){
+    int resultado = a + b;
+    print(resultado);
+    return resultado;
+}

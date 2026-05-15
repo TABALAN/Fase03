@@ -3,7 +3,7 @@ KEYWORDS = {
     'int', 'float', 'if', 'else', 'while', 'return',
     'and', 'switch', 'do', 'not', 'for', 'default',
     'case', 'boolean', 'try', 'catch', 'or', 'main',
-    'elif', 'print', 'input', 'def', 'const', 'True', 'False', 'void'
+    'elif', 'print', 'input', 'def', 'const', 'True', 'False', 'void', 'string'
 }
 
 COMP = {
@@ -44,7 +44,7 @@ class Token:
         elif self.tipo == 'num':
             self.type = 'NUM'
         elif self.tipo == 'txt':
-            self.type = 'STRING'
+            self.type = 'STR'
         elif self.tipo == 'decimal':
             self.type = 'DECIMAL'
         elif self.tipo == "id":

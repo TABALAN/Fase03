@@ -1,0 +1,14 @@
+#Prueba 2: Un programa que realice una operación aritmética básica. 
+
+def float operacion(int a, float r){
+    const float PI = 3.1416;
+    float resultadoOperacion = (a + r)/PI;
+    return resultadoOperacion;
+}
+
+#El análisis semántico es secuencial. Si se llama una función antes de ser declarada, se mostrará como error.
+def void main(){
+    print("Programa que realiza una operacion aritmetica basica: ");
+    float resultado = operacion(2, 4.50);
+    print(resultado);
+}

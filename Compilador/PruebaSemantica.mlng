@@ -1,0 +1,303 @@
+#DECLARACIÓN DE VARIABLES
+
+#Declaración básica - Correcta
+int x = 5;
+float y = 3.14;
+boolean activo = True;
+
+#Declaración con coerción int a float - Correcta
+float z = 10;
+
+#Tipo incompatible: asignar float a int - Error
+#Error: No se puede asignar tipo 'float' a variable 'w' de tipo 'int'
+int w = 3.14;
+
+#Tipo incompatible: asignar string a int - Error
+int edad = "hola";
+
+#Redeclaración en el mismo ámbito - Error
+int a = 1;
+int a = 2;
+
+#Variable usada sin declarar - Error
+print(variableInexistente);
+
+#CONSTANTES
+
+#Declaración correcta 
+const int MAX = 100;
+const float PI = 3.14159;
+const boolean DEBUG = True;
+
+#Reasignación de constante - Error
+const int LIMITE = 50;
+LIMITE = 60;
+
+#Incremento sobre constante - Error
+const int BASE = 10;
+BASE++;
+
+#+= sobre constante - Error
+const int N = 5;
+N += 3;
+
+#Constante usada en expresión
+const int FACTOR = 2;
+int resultado = FACTOR * 10;
+
+#ASIGNACIÓN
+
+#Asignación compatible 
+int contador = 0;
+contador = 5;
+
+#Coerción en asignación: float = int 
+float total = 0;
+total = 10;
+
+#Asignación incompatible: int = string - Error
+int numero = 0;
+numero = "texto";
+
+#Asignación a variable no declarada - Error
+noExiste = 5;
+
+#OPERACIONES ARITMÉTICAS
+
+#Operación int + int 
+int suma = 3 + 4;
+
+#Operación int + float (coerción) 
+float mixto = 3 + 2.5;
+
+#Operación float * float
+float producto = 2.5 * 4.0;
+
+#Operación aritmética con boolean - Error
+int mal = True + 5;
+
+#Operación aritmética con string - Error
+int malDos = "hola" + 5;
+
+#Módulo entre int's
+int resto = 10 % 3;
+
+#Expresión compleja
+float compleja = (3 + 2) * 4.0 / 2;
+
+#INCREMENTO Y DECREMENTO
+
+#++ sobre int
+int cont = 0;
+cont++;
+
+#-- sobre float 
+float f = 1.5;
+f--;
+
+#++ sobre boolean - Error
+boolean b = True;
+b++;
+
+#+= compatible
+int base = 10;
+base += 5;
+
+#+= con coerción 
+float acum = 1.0;
+acum += 3;
+
+#+= incompatible - Error
+int entero = 5;
+entero += "texto";
+
+#CONDICIONES
+
+#Comparación int == int 
+if(x == 5) {
+    print(x);
+}
+
+#Comparación int == float (coerción) 
+float ref = 5.0;
+if(x == ref) {
+    print(x);
+}
+
+#Comparación boolean == boolean
+boolean flag = True;
+if(flag == True) {
+    print(flag);
+}
+
+#Comparación string == string 
+if("hola" == "mundo") {
+    print("diferente");
+}
+
+#Comparación incompatible: int vs boolean - Error
+if(x == True) {
+    print(x);
+}
+
+#Comparación incompatible: string vs int - Error
+if("hola" == 5) {
+    print(x);
+}
+
+#Condición con and 
+int p = 5;
+int q = 10;
+if(p > 0 and q < 20) {
+    print(p);
+}
+
+#Condición con or 
+if(p == 0 or q == 0) {
+    print(q);
+}
+
+
+#ÁMBITOS 
+
+#Variable local no visible fuera del bloque - Error
+if(x > 0) {
+    int local = 99;
+}
+print(local);
+
+#Variable global visible dentro del bloque 
+int global = 42;
+if(x > 0) {
+    print(global);
+}
+
+#Redeclaración en ámbito interno es válida
+int valor = 1;
+if(x > 0) {
+    int valor = 2;
+    print(valor);
+}
+
+#Variable del for no visible afuera - Error
+for(int i = 0; i < 5; i++) {
+    print(i);
+}
+print(i);
+
+
+#FUNCIONES — DECLARACIÓN Y LLAMADA
+
+#Función sin parámetros, void 
+def void saludar() {
+    print("hola");
+}
+saludar();
+
+#Función con parámetros y retorno 
+def int sumar(int a, int b) {
+    return a + b;
+}
+int res = sumar(3, 4);
+
+#Función con coerción en retorno: retorna int, espera float 
+def float obtener() {
+    return 5;
+}
+
+#Función retorna tipo incorrecto - Error
+def int darEntero() {
+    return "texto";
+}
+
+#Función void retorna valor - Generar advertencia
+def void nada() {
+    return 5;
+}
+
+#Función no void sin return - Generar advertencia
+def int sinReturn() {
+    int x = 5;
+}
+
+#Llamada con argumentos correctos 
+def int multiplicar(int a, int b) {
+    return a * b;
+}
+int prod = multiplicar(3, 4);
+
+#Llamada con número incorrecto de argumentos - Error
+multiplicar(3);
+
+#Llamada con tipo incorrecto de argumento - Error
+multiplicar("hola", 4);
+
+#Llamar a algo que no es función - Error
+int noFuncion = 5;
+noFuncion(3, 4);
+
+#Función no declarada - Error
+resultado = funcionInexistente(1, 2);
+
+#Recursión
+def int factorial(int n) {
+    if(n == 0) {
+        return 1;
+    } else {
+        return n * factorial(n - 1);
+    }
+}
+
+#WHILE Y FOR
+
+#While básico 
+int cnt = 0;
+while(cnt < 10) {
+    cnt += 1;
+}
+
+#While con condición incompatible - Error
+while("hola" < 5) {
+    print(cnt);
+}
+
+#For básico 
+int suma2 = 0;
+for(int j = 0; j < 10; j++) {
+    suma2 += j;
+}
+
+#For con variable de iteración usada en el cuerpo 
+for(int k = 1; k < 5; k++) {
+    print(k);
+}
+
+#CASOS COMBINADOS
+
+#Programa completo válido
+def float promedio(int a, int b) {
+    float suma3 = a + b;
+    return suma3 / 2;
+}
+
+int v1 = 10;
+int v2 = 20;
+float prom = promedio(v1, v2);
+print(prom);
+
+#Función que usa constante global 
+const float TASA = 0.15;
+def float calcularImpuesto(float monto) {
+    return monto * TASA;
+}
+float impuesto = calcularImpuesto(100.0);
+print(impuesto);
+
+#Anidamiento de llamadas
+def int doble(int n) {
+    return n * 2;
+}
+def int cuadruple(int n) {
+    return doble(doble(n));
+}
+print(cuadruple(3)); 
