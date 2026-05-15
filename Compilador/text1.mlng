@@ -1,12 +1,196 @@
-int r = 2.15
+#Archivo para realizar todas las pruebas sintácticas
+x = 5;
 
-if(x>0){      
-    
-print(x);
+int x = 10;
+float pi = 3.14;
+
+const int R = 15;
+const float constante = 3.1416;
+const boolean variableBool = false;
+nombre = "hola";
+
+x++;
+y--;
+
+x += 3;
+y -= 2; 
+
+print(x + 2 * 3);
+
+print("resultado");
+return x + 1;
+
+miFuncion(a, b);
+
+#Esto debería ser error y marcar lo siguiente como error para recuperarse con ';'
+x = 5
+print("Se recupera despues del print");
+
+if(x > 5) { print(x); }
+
+
+if(x > 5) {
+
+
+
+    print(x);
+
 
 }
 
-while(r > 2){
-    print("Preciosa la vida");
+if(x > 5)
+{
+    print(x);
+}
+while(x < 10) {
+    x += 1;
+}
 
+for(int i = 0; i < 10; i++) {
+    print(i);
+}
+
+
+
+
+if(x > 0) {
+    int y = x * 2;
+
+
+    print(y);
+    return y;
+}
+if(x == 5) { print(x); }
+
+if(x > 0 and x < 10) { print(x); }
+
+if(x == 0 or y == 0) { print(x); }
+
+if(x != y) { print(x); }
+if(x <= 5) { print(x); }
+if(x >= 5) { print(x); }
+
+if(x > 5) {
+    print(x);
+} else {
+    print(y);
+}
+
+if(x > 5) {
+    print(x);
+} elif(x == 5) {
+    print(y);
+} else {
+    print(z);
+}
+
+if(x > 0) {
+
+    if(y > 0) 
+    {
+
+        print(x);
+    }
+}
+if(x > 0) {
+    print(x);
+}
+
+def void saludar() {
+    print("hola");
+}
+
+def int sumar(int a, int b) {
+    return a + b;
+}
+
+def int calcular(int x, int y) {
+    int resultado = x * y;
+    print(resultado);
+    return resultado;
+}
+
+sumar(3, 4);
+
+print(sumar(3, 4));
+
+#IF especial que compara el resultado de la llamada con un número
+if(sumar(x, y) > 10) {
+    print("grande");
+}
+
+print(2 + 3 * 4);
+print((2 + 3) * 4);
+
+int r = 10 % 3;
+
+float r = 10 / 3;
+
+int r = a + b * c - d / e;
+#Probando el input
+x = input("ingrese valor");
+
+print(input("valor"));
+
+# ---- Pruebas con mezcla de errores léxicos ---- 
+@; #Esto es el error
+x = 5; #Esto se debería parsear correctamente
+
+#Probar recuperación
+if(x > 0) {
+    @;
+    print(x);
+}
+
+@
+x = 5; #Debería parsearse bien
+#Deberá marcar error y recuperarse en '}' ----> Paréntesis faltante
+if x > 5) {
+    print(x);
+}
+x = 1;
+
+int x = + * 5;
+y = 3;
+
+#Intento de recuperación con RBRACE ---> Se reinserta el '}' para cerrar bloque
+if(x > 0) {
+    print(x);
+
+y = 1; 
+
+int x = + 5;
+float y = * 2;
+z = 10;
+
+#9 errores más hasta acá
+
+#Todo válido
+def int factorial(int n) {
+    if(n == 0) {
+        return 1;
+    } else {
+        return n * factorial(n - 1);
+    }
+}
+
+int x = input("ingrese n");
+print(factorial(x));
+
+
+int x = 5;
+@ = 3;
+print(x);
+
+#10 errores hasta acá 
+
+int suma = 0;
+for(int i = 0; i < 10; i++) {
+    suma += i;
+}
+print(suma);
+
+while(x > 0 and y < 100) {
+    x -= 1;
+    y += 2;
 }
