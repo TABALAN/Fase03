@@ -1,0 +1,15 @@
+print("Declarando todas las variables.");
+
+int x = 5;
+const float PI = 3.14168145;
+int y = input("Ingrese el valor de la variable.");
+int w = input("Ingrese el valor de la variable w.");
+
+print("Aplicacion del bucle while.");
+
+while(x > 2){
+ 	x--;
+}
+
+print("El numero es:");
+print(x);

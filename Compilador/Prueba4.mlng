@@ -1,0 +1,14 @@
+class ProgramaPrincipal {
+
+	def int operacion(int a, int b){
+		#Realizando una operación simple
+		int resultado = a + b;
+		return resultado;
+	}
+
+	def void main(){
+		int resultadoFuncion = operacion(10, 9);
+		print(resultadoFuncion);
+		print("Esta correcto");
+	}
+}

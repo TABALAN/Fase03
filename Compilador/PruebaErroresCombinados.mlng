@@ -1,0 +1,95 @@
+# Pruebas combinadas — errores léxicos, sintácticos y semánticos
+# Cada sección está comentada con qué se espera
+
+# SECCIÓN 1: Solo errores léxicos
+# Se esperan errores léxicos, pero el resto del programa sigue
+
+int x = 5;
+@ = 10;         # Error léxico: '@' no es token válido
+int y = 3;
+print(y);
+
+# SECCIÓN 2: Error léxico dentro de un bloque
+# El bloque debe seguir funcionando después del error
+
+int contador = 0;
+while(contador < 5) {
+    @;          # Error léxico dentro del bloque
+    contador += 1;
+}
+print(contador);
+
+# SECCIÓN 3: Error sintáctico seguido de semántico
+# El parser se recupera, pero la variable declarada incorrectamente
+# no llega al semántico → error en cadena esperado
+
+int z = + 5;    # Error sintáctico: expresión malformada
+print(z);       # Error semántico en cadena: 'z' no declarada
+
+# SECCIÓN 4: Error semántico dentro de bloque válido sintácticamente
+# El bloque parsea bien, el semántico detecta el error interno
+
+int a = 10;
+if(a > 5) {
+    int b = "texto";    # Error semántico: string a int
+    print(b);           # b sí llega al semántico (con tipo incorrecto)
+}
+print(a);               # a debe seguir siendo válida 
+
+# SECCIÓN 5: Error sintáctico en función -> efecto en llamada
+
+def int calcular(int n) {
+    return + * n;       # Error sintáctico dentro de la función
+}
+int res = calcular(5);  # calcular sí llega al AST pero sin cuerpo válido
+
+
+# SECCIÓN 6: Error léxico en parámetro de llamada
+
+
+def int doble(int n) {
+    return n * 2;
+}
+int r = doble(@);       # Error léxico en argumento
+
+# SECCIÓN 7: Combinación de los tres tipos en secuencia
+# Se espera que cada fase reporte su error y las siguientes continúen
+
+int p = 5;
+int q = "hola";         # Error semántico: string a int
+int s = + q;            # Error sintáctico: expresión malformada
+@ = p;                  # Error léxico
+print(p);               # p sigue válida 
+
+# SECCIÓN 8: Función con error semántico en retorno y llamada posterior válida
+
+def float obtener(int n) {
+    int temp = n * 2;
+    return "mal";       # Error semántico: retorna string, espera float
+}
+float resultado = obtener(3);   # La función sí está declarada, la llamada es válida
+
+# SECCIÓN 9: Error sintáctico en condición de if El bloque interno no se analiza
+
+int m = 10;
+if(m > ) {              # Error sintáctico: condición incompleta
+    print(m);
+}
+print(m);               # m sigue válida 
+
+# SECCIÓN 10: Programa válido al final para confirmar recuperación total
+# Todo esto debe analizarse sin errores
+
+def int sumar(int a, int b) {
+    return a + b;
+}
+
+const int MAX = 100;
+int v1 = 10;
+int v2 = 20;
+int total = sumar(v1, v2);
+print(total);
+
+if(total < MAX) {
+    print("dentro del limite");
+}

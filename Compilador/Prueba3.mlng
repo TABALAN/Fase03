@@ -1,0 +1,12 @@
+#Prueba 3: Un programa que demuestre el uso del input de datos y de acuerdo con 
+#la entrada del usuario decidir el flujo del programa a través de un if 
+
+int x = input("Ingrese un numero");
+
+if(x > 2){
+	print("Es mayor");
+	print(x + 2);
+}
+else {
+	print("Es menor");
+}

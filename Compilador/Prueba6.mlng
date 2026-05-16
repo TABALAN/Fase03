@@ -1,0 +1,18 @@
+class ClasePerrona {
+
+    def float suma(float num1, float num2){
+        #Debería recuperarse en el  ';'
+        print("Error lexico de cadena de texto sin cerrar);
+        float resultado = num1 * num2;
+        boolean @ = True; #Se debe marcar error con '@' y recuperar
+        return resultado;
+    }
+
+    def void main(){
+        float num7 = 7.99999;
+        float almacenar = 0.00;
+        #Llamada a función con errores léxicos
+        almacenar = suma(num7, 45.777777);
+        print(almacenar);
+    }
+}

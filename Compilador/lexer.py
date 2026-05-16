@@ -12,7 +12,7 @@ class Lexer:
                     "float" : r"^(0|[1-9][0-9]*)\.[0-9]+$",
                     "txt" : r"^\"[A-Za-z0-9_\-@%¿?¡!'\(\);:\.\+= ]*\"$",
                     "op" : r"^[+\-*/]$",
-                    "key" : r"^(int|float|True|False|if|else|while|return|and|switch|do|not|for|default|case|boolean|try|catch|or|main|elif|print|input|def|const|void)$",
+                    "key" : r"^(class|string|int|float|True|False|if|else|while|return|and|switch|do|not|for|default|case|boolean|try|catch|or|elif|print|input|def|const|void)$",
                     "comp" : r"^(==|!=|<=|>=|<|>|%|\+\+|--|\+=|-=)$",
                     "esp" : r"^[&~¬°(){}=!]$",
                     "punt" : r"^[,:;]$",
@@ -127,7 +127,7 @@ class Lexer:
                      })'''
                     
                     #Primero validar si hay comentario
-                    if self.lexemaAC: 
+                    '''if self.lexemaAC: 
                         if re.fullmatch(self.token["coment"], self.lexemaAC):
                             self.tokens.append({
                                 "lexema": self.lexemaAC,
@@ -146,7 +146,7 @@ class Lexer:
                                 "identacion": nivelId,
                                 "Desc" : "Comentario No Valido"
                             })
-                            self.lexemaAC = ""
+                            self.lexemaAC = ""'''
 
                     linea += 1
                     columna = 1
@@ -268,7 +268,7 @@ class Lexer:
         
         # Si el lexema empieza con # es comentario
         if lexema and lexema[0] == '#':
-            if re.fullmatch(self.token["coment"], lexema):
+            '''if re.fullmatch(self.token["coment"], lexema):
                 self.tokens.append({
                     "lexema": lexema,
                     "tipo": "coment",
@@ -284,7 +284,7 @@ class Lexer:
                     "columna": columna,
                     "identacion": identacion,
                     "Desc": "Comentario No Valido"
-                })
+                })'''
             return
 
         #Análisis si solo es un caracter
@@ -515,7 +515,8 @@ class Lexer:
                     })
             #Ver si es comentario
             elif lexema[i] == '#':
-                lexemaComent = ""
+                break
+                '''lexemaComent = ""
 
                 while i < len(lexema): #Construye todo el comentario en ese lexema
                     lexemaComent += lexema[i]
@@ -524,7 +525,7 @@ class Lexer:
                 self.lexemaAC += lexemaComent #Construir totalmente para la validación final
 
                 #Por si todo está junto - Si se quiere tokenizar 👻
-                '''if re.fullmatch(self.token["coment"], lexemaComent):
+                if re.fullmatch(self.token["coment"], lexemaComent):
                     self.tokens.append({
                         "lexema": lexemaComent,
                         "tipo": "coment",

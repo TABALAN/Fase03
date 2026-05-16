@@ -4,11 +4,11 @@ from adaptadorLexer import adaptadorL
 #Las funciones deben estar fuera para que funcione el PLY
 tokens = (
             # Literales
-            'ID', 'NUM', 'DECIMAL', 'STRING', 'TRUE', 'FALSE',
+            'ID', 'NUM', 'DECIMAL', 'STRING', 'TRUE', 'FALSE', 'STR',
             # Palabras clave
             'FLOAT', 'INT', 'IF', 'ELSE', 'WHILE', 'FOR', 'RETURN', 'AND', 'OR', 'NOT',
             'SWITCH', 'DO', 'DEFAULT', 'CASE', 'BOOLEAN', 'TRY', 'CATCH',
-            'MAIN', 'ELIF', 'PRINT', 'INPUT', 'READ', 'DEF', 'CONST', 'VOID',
+            'MAIN', 'ELIF', 'PRINT', 'INPUT', 'READ', 'DEF', 'CONST', 'VOID', 'CLASS',
             # Operadores aritméticos
             'PLUS', 'MINUS', 'TIMES', 'DIVIDE',
             # Operadores de comparación
@@ -20,7 +20,7 @@ tokens = (
             # Puntuación
             'COMMA', 'COLON', 'SEMI',
             # Especial
-            'LEXICO_ERROR'
+            'LEXICO_ERROR' 
         )
 
 #Todas las producciones escritas en funciones para que PLY las identifique
@@ -52,6 +52,10 @@ def p_s_def(p):
     "s : l"
     p[0] = p[1]
 
+def p_s_class(p):
+    "s : x"
+    p[0] = p[1]
+
 #Sentencias simples (terminan en SEMI)
 def p_s_print(p):
     "s : PRINT LPAREN e RPAREN SEMI"
@@ -74,6 +78,20 @@ def p_s_lexico_error(p):
     "s : LEXICO_ERROR SEMI"
     print(f"[Error léxico] Línea {p.lineno(1)}: token inválido '{p[1]}'") 
     p[0] = None
+
+# Recuperación a nivel de sentencia simple (error seguido de ;)
+def p_s_error_semi(p):
+    "s : error SEMI"
+    print(f"[Error sintáctico] Sentencia inválida descartada (línea {p.lineno(1)}).")
+    p[0] = None
+    p.parser.errok()
+
+# Recuperación a nivel de sentencia de bloque (error seguido de bloque)
+def p_s_error_bloque(p):
+    "s : error c"
+    print(f"[Error sintáctico] Bloque inválido descartado (línea {p.lineno(1)}).")
+    p[0] = None
+    p.parser.errok()
 
 #Recuperación de errores
 def p_sprime_error_semi(p):
@@ -210,7 +228,7 @@ def p_h_float(p):
     p[0] = ('float', p[1])
  
 def p_h_string(p):
-    "h : STRING"
+    "h : STR"
     p[0] = ('string', p[1])
  
 def p_h_true(p):
@@ -222,14 +240,14 @@ def p_h_false(p):
     p[0] = ('boolean', False)
  
 def p_h_input(p):
-    "h : INPUT LPAREN STRING RPAREN"
+    "h : INPUT LPAREN STR RPAREN"
     p[0] = ('input', p[3])
 
 #I — actualizaciones (usadas dentro del for)
 def p_i_assign(p):
     "i : ID ASSIGN e"
     p[0] = ('assign', p[1], p[3])
- 
+
 def p_i_inc(p):
     "i : ID INC"
     p[0] = ('inc', p[1])
@@ -262,6 +280,10 @@ def p_j_bool(p):
 def p_j_void(p):
     "j : VOID"
     p[0] = 'void'
+
+def p_j_string(p):
+    "j : STRING"
+    p[0] = 'string'
 
 #K — asignación / declaración / incremento (sentencias simples sin SEMI, porque S ya les añade el SEMI en su propia producción)
 def p_k_assign(p):
@@ -330,6 +352,11 @@ def p_p_comma(p):
 def p_p_empty(p):
     "p : empty"
     p[0] = None
+
+# X — definición de clase ---> Probar para ver que funciona declarar una clase
+def p_x(p):
+    "x : CLASS ID LBRACE sprime RBRACE"
+    p[0] = ('class', p[2], p[4])
 
 # empty
 def p_empty(p):

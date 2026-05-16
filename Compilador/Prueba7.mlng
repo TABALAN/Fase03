@@ -1,0 +1,33 @@
+#Prueba con errores sintácticos
+class program {
+
+    int x = 12;
+
+    #Error sintáctico dentro de la función: declaración invalida, todo lo demás debe estar correcto.
+
+    def int factorial(int n) {
+        
+        float viableMala = + 16;
+        print("Recuperarse en el punto y coma de esta instruccion");
+
+        if(n == 0) {
+            return 1;
+        } else {
+            return n * factorial(n - 1);
+        }
+    }
+
+    def void main() {
+        
+        int numeroBase = 4;
+        
+        #Error sintáctito: while sin condicion y se recupera en llave
+
+        while() {
+            print("Todo esto se debe descartar hasta recurperarse en llave");
+        }
+
+        int resultado = factorial(numeroBase);
+    }
+
+}

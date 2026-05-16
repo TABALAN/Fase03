@@ -1,0 +1,33 @@
+#Prueba con errores semánticos
+class program {
+
+    int x = 12;
+
+    #Error semántico dentro de la función: variable sin inicializar
+
+    def int factorial(int n) {
+        
+        viableSinInicializar = 16;
+
+        if(n == 0) {
+            return 1;
+        } else {
+            return n * factorial(n - 1);
+        }
+
+        #Error en llamada con tipo de parámetro incorrecto
+        int variableRara = factorial("Nada que ver");
+    }
+
+    def void main() {
+        
+        int numeroBase = 4;
+
+        int resultado = factorial(numeroBase);
+
+        #Segundo error semántico con llamada de función sin parámetros
+        int resultado2 = factorial();
+
+    }
+
+}

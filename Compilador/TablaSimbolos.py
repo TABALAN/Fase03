@@ -1,9 +1,11 @@
+#Tabla de símbolos para utilizar en el analizador semántico directamente.
 class Tabla:
     #Constructor
     def __init__(self):
         self.pila = [{}]   #ámbito global siempre en [0]
         self.errores = []
         self.advertencias = []
+        self.otroAmbito = []
 
     #Gestión de ámbitos
     #Se abre un nuevo ámbito cuando se entra a una función o bloque
@@ -13,7 +15,9 @@ class Tabla:
     #Se cierra el ámbito actual en uso
     def salirAmbito(self):
         if len(self.pila) > 1:
-            self.pila.pop()
+            ambitoCerrado = self.pila.pop()
+            if ambitoCerrado:
+                self.otroAmbito.append(ambitoCerrado)
 
     #Devuelve el ámbito actual
     def ambitoActual(self):
@@ -33,7 +37,7 @@ class Tabla:
     def buscarAmbitoActual(self, nombre):
         return self.ambitoActual().get(nombre, None)
 
-    #Declara un símbolo en el ámbito actual
+    #Declara una variable en el ámbito actual
     def declarar(self, nombre, entrada, linea=None):
         if nombre in self.ambitoActual(): #Va a retornar False si ya estaba declarado en este ámbito (redeclarar)
             self.error(f"'{nombre}' ya fue declarado en este ámbito.", linea)
@@ -74,15 +78,17 @@ class Tabla:
         print(f"[Advertencia]{ubicacion} {mensaje}")
 
     def imprimirTabla(self):
-        print("\n--- Tabla de símbolos (ambito actual) ---")
-        for i, ambt in enumerate(self.pila):
-            #Solo una validación para ver qué escribir
-            if i == 0:
-                nivel = "global"
-            else:
-                nivel = f"nivel {i}"
-
-            print(f"  ambito {nivel}:")
-            for nombre, entrada in ambt.items():
-                print(f"    {nombre}: {entrada}")
+        print("\n--- Tabla de simbolos (ambito actual) ---")
+        # Ámbito global (siempre el primero)
+        print("  Ámbito global:")
+        for nombre, entrada in self.pila[0].items():
+            print(f"    {nombre}: {entrada}")
+        
+        # Ámbitos internos del recorridos
+        if self.otroAmbito:
+            print("\n  Ambitos internos (funciones/bloques):")
+            for i, scope in enumerate(self.otroAmbito):
+                print(f"    --- Ambito {i + 1} ---")
+                for nombre, entrada in scope.items():
+                    print(f"      {nombre}: {entrada}")
         print("----------------------------------------")
