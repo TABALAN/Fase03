@@ -8,7 +8,7 @@ class Lector:
 
     def readFile(self):
         try:
-            with open(self.fileName, "r") as archivo:
+            with open(self.fileName, "r", encoding='utf-8-sig') as archivo:
                 self.lineasArchivo = archivo.read() 
             return self.lineasArchivo
         except:
